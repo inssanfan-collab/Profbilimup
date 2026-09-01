@@ -33,6 +33,11 @@
             <div class="pt-4 border-t border-gray-100">
                 @if ($isCompleted)
                     <span class="text-green-600 font-medium">✓ {{ __('Урок завершён') }}</span>
+                @elseif ($lesson->test)
+                    <a href="{{ route('listener.tests.show', [$assignment, $lesson]) }}" wire:navigate
+                        class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+                        {{ __('Пройти тест') }}
+                    </a>
                 @else
                     <button wire:click="complete" type="button"
                         class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">

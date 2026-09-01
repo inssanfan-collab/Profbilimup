@@ -1,8 +1,13 @@
 <div class="py-12" x-data>
     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
-        <a href="{{ route('admin.courses.builder', $lesson->courseModule->course_id) }}" wire:navigate class="text-sm text-indigo-600 hover:text-indigo-900">
-            &larr; {{ __('Назад к структуре курса') }}
-        </a>
+        <div class="flex items-center justify-between">
+            <a href="{{ route('admin.courses.builder', $lesson->courseModule->course_id) }}" wire:navigate class="text-sm text-indigo-600 hover:text-indigo-900">
+                &larr; {{ __('Назад к структуре курса') }}
+            </a>
+            <a href="{{ route('admin.lessons.test', $lesson) }}" wire:navigate class="text-sm text-indigo-600 hover:text-indigo-900">
+                {{ $lesson->test ? __('Редактировать тест') : __('Добавить тест') }} &rarr;
+            </a>
+        </div>
 
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 space-y-6">
             <form wire:submit="save" class="space-y-6">

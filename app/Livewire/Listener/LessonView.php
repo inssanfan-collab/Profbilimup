@@ -36,6 +36,8 @@ class LessonView extends Component
 
     public function complete(ProgressService $progressService): void
     {
+        abort_if($this->lesson->test, 403);
+
         $progressService->completeLesson($this->assignment, $this->lesson);
 
         $this->redirectRoute('listener.courses.show', $this->assignment, navigate: true);

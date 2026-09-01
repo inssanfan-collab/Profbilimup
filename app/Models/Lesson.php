@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable(['course_module_id', 'title', 'order', 'content_html', 'video_url'])]
 class Lesson extends Model
@@ -23,6 +24,11 @@ class Lesson extends Model
     public function files(): HasMany
     {
         return $this->hasMany(LessonFile::class);
+    }
+
+    public function test(): HasOne
+    {
+        return $this->hasOne(Test::class);
     }
 
     /**
