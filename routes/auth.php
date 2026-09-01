@@ -14,6 +14,10 @@ Route::middleware('guest')->group(function () {
 
     Volt::route('reset-password/{token}', 'pages.auth.reset-password')
         ->name('password.reset');
+
+    Volt::route('invite/{user}', 'pages.auth.accept-invite')
+        ->middleware('signed')
+        ->name('invite.accept');
 });
 
 Route::middleware('auth')->group(function () {
