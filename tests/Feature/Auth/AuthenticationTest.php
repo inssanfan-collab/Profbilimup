@@ -60,9 +60,10 @@ class AuthenticationTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->get('/dashboard');
+        // /dashboard redirects each role to its own area (see routes/web.php).
+        $response = $this->get('/dashboard')->assertRedirect(route('listener.dashboard'));
 
-        $response
+        $this->get($response->headers->get('Location'))
             ->assertOk()
             ->assertSeeVolt('layout.navigation');
     }
