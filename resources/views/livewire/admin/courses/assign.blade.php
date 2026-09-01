@@ -35,6 +35,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('Срок') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('Статус') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('Прогресс') }}</th>
+                        <th class="px-6 py-3"></th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
@@ -56,10 +57,21 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $assignment->progressPercent() }}%</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right">
+                                @if ($assignment->certificate)
+                                    <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($assignment->certificate->pdf_path) }}" target="_blank" class="text-indigo-600 hover:text-indigo-900">
+                                        {{ $assignment->certificate->type === \App\Enums\CertificateType::Certificate ? __('Сертификат') : __('Справка') }}
+                                    </a>
+                                @elseif ($assignment->status !== \App\Enums\AssignmentStatus::Completed && $assignment->agreement_accepted_at)
+                                    <button wire:click="closeAsAttendanceOnly({{ $assignment->id }})" wire:confirm="{{ __('Закрыть курс для слушателя и выдать справку о прослушивании вместо сертификата?') }}" type="button" class="text-amber-600 hover:text-amber-800">
+                                        {{ __('Закрыть как «прослушал»') }}
+                                    </button>
+                                @endif
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="px-6 py-8 text-center text-gray-500">{{ __('Курс пока никому не назначен.') }}</td>
+                            <td colspan="5" class="px-6 py-8 text-center text-gray-500">{{ __('Курс пока никому не назначен.') }}</td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -102,12 +102,36 @@ class ProgressService
 
     private function completeCourse(CourseAssignment $assignment): void
     {
-        // Пока в курсах нет тестов (этап 4), итоговое оценивание считается пройденным
-        // автоматически по завершении всех уроков.
+        // Каждый урок с тестом уже требовал прохождения теста, чтобы засчитаться
+        // (см. TestGradingService), поэтому дойти до последнего урока означает
+        // успешно пройти итоговое оценивание курса.
         $assignment->update([
             'status' => AssignmentStatus::Completed,
             'completed_at' => now(),
             'final_outcome' => FinalOutcome::Passed,
         ]);
+
+        app(CertificateService::class)->generate($assignment->fresh());
+    }
+
+    /**
+     * Админ закрывает назначение как «прослушал» — для слушателя, который не смог
+     * пройти итоговое оценивание (например, исчерпал попытки теста). Выдаётся
+     * справка о прослушивании вместо сертификата.
+     */
+    public function closeAsAttendanceOnly(CourseAssignment $assignment): void
+    {
+        if ($assignment->status === AssignmentStatus::Completed) {
+            return;
+        }
+
+        $assignment->update([
+            'status' => AssignmentStatus::Completed,
+            'completed_at' => now(),
+            'final_outcome' => FinalOutcome::AttendanceOnly,
+            'retake_available_at' => now()->addYear(),
+        ]);
+
+        app(CertificateService::class)->generate($assignment->fresh());
     }
 }

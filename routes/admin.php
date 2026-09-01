@@ -8,6 +8,7 @@ use App\Livewire\Admin\Lessons\Form as LessonForm;
 use App\Livewire\Admin\Lessons\TestBuilder;
 use App\Livewire\Admin\Listeners\Form as ListenerForm;
 use App\Livewire\Admin\Listeners\Index as ListenersIndex;
+use App\Livewire\Admin\Settings\Organization as OrganizationSettingsPage;
 use App\Livewire\Admin\TestReview\Queue as TestReviewQueue;
 use App\Livewire\Admin\TestReview\Review as TestReviewReview;
 use Illuminate\Support\Facades\Route;
@@ -29,3 +30,5 @@ Route::get('lessons/{lesson}/test', TestBuilder::class)->name('lessons.test');
 
 Route::get('test-review', TestReviewQueue::class)->name('test-review.index');
 Route::get('test-review/{attempt}', TestReviewReview::class)->name('test-review.show');
+
+Route::get('settings/organization', OrganizationSettingsPage::class)->name('settings.organization');

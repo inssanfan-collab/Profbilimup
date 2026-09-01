@@ -46,6 +46,10 @@ new class extends Component
                         <x-nav-link :href="route('admin.test-review.index')" :active="request()->routeIs('admin.test-review.*')" wire:navigate>
                             {{ __('Проверка тестов') }}
                         </x-nav-link>
+                    @else
+                        <x-nav-link :href="route('listener.certificates.index')" :active="request()->routeIs('listener.certificates.*')" wire:navigate>
+                            {{ __('Мои сертификаты') }}
+                        </x-nav-link>
                     @endif
                 </div>
             </div>
@@ -69,6 +73,12 @@ new class extends Component
                         <x-dropdown-link :href="route('profile')" wire:navigate>
                             {{ __('Profile') }}
                         </x-dropdown-link>
+
+                        @if (auth()->user()->isAdmin())
+                            <x-dropdown-link :href="route('admin.settings.organization')" wire:navigate>
+                                {{ __('Настройки организации') }}
+                            </x-dropdown-link>
+                        @endif
 
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
@@ -111,6 +121,10 @@ new class extends Component
                 <x-responsive-nav-link :href="route('admin.test-review.index')" :active="request()->routeIs('admin.test-review.*')" wire:navigate>
                     {{ __('Проверка тестов') }}
                 </x-responsive-nav-link>
+            @else
+                <x-responsive-nav-link :href="route('listener.certificates.index')" :active="request()->routeIs('listener.certificates.*')" wire:navigate>
+                    {{ __('Мои сертификаты') }}
+                </x-responsive-nav-link>
             @endif
         </div>
 
@@ -125,6 +139,12 @@ new class extends Component
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+
+                @if (auth()->user()->isAdmin())
+                    <x-responsive-nav-link :href="route('admin.settings.organization')" wire:navigate>
+                        {{ __('Настройки организации') }}
+                    </x-responsive-nav-link>
+                @endif
 
                 <!-- Authentication -->
                 <button wire:click="logout" class="w-full text-start">

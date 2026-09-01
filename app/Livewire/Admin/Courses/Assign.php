@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Courses;
 use App\Enums\UserRole;
 use App\Livewire\Concerns\HasPageHeader;
 use App\Models\Course;
+use App\Models\CourseAssignment;
 use App\Models\User;
 use App\Services\ProgressService;
 use Illuminate\Contracts\View\View;
@@ -54,6 +55,13 @@ class Assign extends Component
         $this->reset('listenerId', 'deadline');
     }
 
+    public function closeAsAttendanceOnly(CourseAssignment $assignment, ProgressService $progressService): void
+    {
+        abort_unless($assignment->course_id === $this->course->id, 403);
+
+        $progressService->closeAsAttendanceOnly($assignment);
+    }
+
     public function render(): View
     {
         $assignedListenerIds = $this->course->assignments()->pluck('listener_id');
@@ -64,7 +72,7 @@ class Assign extends Component
             ->orderBy('name')
             ->get();
 
-        $assignments = $this->course->assignments()->with('listener.listenerProfile')->latest()->get();
+        $assignments = $this->course->assignments()->with(['listener.listenerProfile', 'certificate'])->latest()->get();
 
         return view('livewire.admin.courses.assign', [
             'availableListeners' => $availableListeners,
