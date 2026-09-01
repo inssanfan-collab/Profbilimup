@@ -35,6 +35,10 @@ new class extends Component
                     </x-nav-link>
 
                     @if (auth()->user()->isAdmin())
+                        <x-nav-link :href="route('admin.courses.index')" :active="request()->routeIs('admin.courses.*') || request()->routeIs('admin.lessons.*')" wire:navigate>
+                            {{ __('Курсы') }}
+                        </x-nav-link>
+
                         <x-nav-link :href="route('admin.listeners.index')" :active="request()->routeIs('admin.listeners.*')" wire:navigate>
                             {{ __('Слушатели') }}
                         </x-nav-link>
@@ -92,6 +96,10 @@ new class extends Component
             </x-responsive-nav-link>
 
             @if (auth()->user()->isAdmin())
+                <x-responsive-nav-link :href="route('admin.courses.index')" :active="request()->routeIs('admin.courses.*') || request()->routeIs('admin.lessons.*')" wire:navigate>
+                    {{ __('Курсы') }}
+                </x-responsive-nav-link>
+
                 <x-responsive-nav-link :href="route('admin.listeners.index')" :active="request()->routeIs('admin.listeners.*')" wire:navigate>
                     {{ __('Слушатели') }}
                 </x-responsive-nav-link>
