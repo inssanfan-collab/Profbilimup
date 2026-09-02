@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\TestReview;
 
+use App\Enums\CuratorPermission;
 use App\Enums\QuestionType;
 use App\Livewire\Concerns\HasPageHeader;
 use App\Models\TestAnswer;
@@ -22,6 +23,9 @@ class Review extends Component
 
     public function mount(TestAttempt $attempt): void
     {
+        abort_unless(auth()->user()->hasPermission(CuratorPermission::TestReview), 403);
+        abort_unless(auth()->user()->hasCourseAccess($attempt->test->lesson->courseModule->course), 403);
+
         $this->attempt = $attempt;
 
         foreach ($attempt->answers()->whereNull('points_awarded')->get() as $answer) {

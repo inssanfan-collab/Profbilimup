@@ -163,12 +163,17 @@ class TestGradingService
     }
 
     /**
+     * @param  array<int, int>|null  $courseIds  Ограничить курсами куратора; `null` — без ограничения.
      * @return Collection<int, TestAttempt>
      */
-    public function pendingReview(): Collection
+    public function pendingReview(?array $courseIds = null): Collection
     {
         return TestAttempt::query()
             ->where('status', TestAttemptStatus::AwaitingReview)
+            ->when($courseIds !== null, fn ($query) => $query->whereHas(
+                'test.lesson.courseModule.course',
+                fn ($q) => $q->whereIn('id', $courseIds),
+            ))
             ->with(['listener.listenerProfile', 'test.lesson.courseModule.course'])
             ->oldest('submitted_at')
             ->get();

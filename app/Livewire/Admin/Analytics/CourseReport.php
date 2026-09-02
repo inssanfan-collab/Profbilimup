@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Analytics;
 
+use App\Enums\CuratorPermission;
 use App\Livewire\Concerns\HasPageHeader;
 use App\Models\Course;
 use Illuminate\Contracts\View\View;
@@ -17,6 +18,9 @@ class CourseReport extends Component
 
     public function mount(Course $course): void
     {
+        abort_unless(auth()->user()->hasPermission(CuratorPermission::Analytics), 403);
+        abort_unless(auth()->user()->hasCourseAccess($course), 403);
+
         $this->course = $course;
     }
 

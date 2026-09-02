@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
@@ -47,6 +48,11 @@ class Course extends Model
     public function videoMeetings(): HasMany
     {
         return $this->hasMany(VideoMeeting::class);
+    }
+
+    public function curators(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'curator_course');
     }
 
     /**

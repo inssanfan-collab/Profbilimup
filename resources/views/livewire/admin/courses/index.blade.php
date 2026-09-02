@@ -1,11 +1,13 @@
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
-        <div class="flex items-center justify-end">
-            <a href="{{ route('admin.courses.create') }}" wire:navigate
-                class="inline-flex items-center px-4 py-2.5 bg-blue-700 border border-transparent rounded-lg font-semibold text-sm text-white hover:bg-blue-800">
-                {{ __('Новый курс') }}
-            </a>
-        </div>
+        @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::Courses) && (auth()->user()->isAdmin() || auth()->user()->has_all_courses_access))
+            <div class="flex items-center justify-end">
+                <a href="{{ route('admin.courses.create') }}" wire:navigate
+                    class="inline-flex items-center px-4 py-2.5 bg-blue-700 border border-transparent rounded-lg font-semibold text-sm text-white hover:bg-blue-800">
+                    {{ __('Новый курс') }}
+                </a>
+            </div>
+        @endif
 
         <div class="bg-white overflow-hidden rounded-xl border border-gray-100 shadow-card">
             <table class="min-w-full divide-y divide-gray-200">
@@ -37,8 +39,13 @@
                                 @endswitch
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right space-x-3">
-                                <a href="{{ route('admin.courses.builder', $course) }}" wire:navigate class="text-blue-700 hover:text-blue-900">{{ __('Редактировать содержимое') }}</a>
-                                <a href="{{ route('admin.courses.edit', $course) }}" wire:navigate class="text-gray-600 hover:text-gray-900">{{ __('Параметры') }}</a>
+                                @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::Courses))
+                                    <a href="{{ route('admin.courses.builder', $course) }}" wire:navigate class="text-blue-700 hover:text-blue-900">{{ __('Редактировать содержимое') }}</a>
+                                    <a href="{{ route('admin.courses.edit', $course) }}" wire:navigate class="text-gray-600 hover:text-gray-900">{{ __('Параметры') }}</a>
+                                @endif
+                                @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::VideoMeetings))
+                                    <a href="{{ route('admin.video-meetings.index', $course) }}" wire:navigate class="text-blue-700 hover:text-blue-900">{{ __('Видеоуроки') }}</a>
+                                @endif
                             </td>
                         </tr>
                     @empty

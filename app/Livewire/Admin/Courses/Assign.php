@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Courses;
 
+use App\Enums\CuratorPermission;
 use App\Enums\UserRole;
 use App\Livewire\Concerns\HasPageHeader;
 use App\Models\Course;
@@ -26,6 +27,10 @@ class Assign extends Component
 
     public function mount(Course $course): void
     {
+        abort_unless(auth()->user()->hasPermission(CuratorPermission::Courses), 403);
+        abort_unless(auth()->user()->hasPermission(CuratorPermission::Listeners), 403);
+        abort_unless(auth()->user()->hasCourseAccess($course), 403);
+
         $this->course = $course;
     }
 

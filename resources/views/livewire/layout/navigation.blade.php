@@ -36,31 +36,48 @@ new class extends Component
                         {{ __('Главная') }}
                     </x-nav-link>
 
-                    @if (auth()->user()->isAdmin())
-                        <x-nav-link :href="route('admin.courses.index')" :active="request()->routeIs('admin.courses.*') || request()->routeIs('admin.lessons.*')" wire:navigate>
-                            <x-app-icon name="courses" class="h-4 w-4" />
-                            {{ __('Курсы') }}
-                        </x-nav-link>
+                    @if (auth()->user()->isAdmin() || auth()->user()->isCurator())
+                        @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::Courses) || auth()->user()->hasPermission(\App\Enums\CuratorPermission::VideoMeetings))
+                            <x-nav-link :href="route('admin.courses.index')" :active="request()->routeIs('admin.courses.*') || request()->routeIs('admin.lessons.*')" wire:navigate>
+                                <x-app-icon name="courses" class="h-4 w-4" />
+                                {{ __('Курсы') }}
+                            </x-nav-link>
+                        @endif
 
-                        <x-nav-link :href="route('admin.listeners.index')" :active="request()->routeIs('admin.listeners.*')" wire:navigate>
-                            <x-app-icon name="users" class="h-4 w-4" />
-                            {{ __('Слушатели') }}
-                        </x-nav-link>
+                        @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::Listeners))
+                            <x-nav-link :href="route('admin.listeners.index')" :active="request()->routeIs('admin.listeners.*')" wire:navigate>
+                                <x-app-icon name="users" class="h-4 w-4" />
+                                {{ __('Слушатели') }}
+                            </x-nav-link>
+                        @endif
 
-                        <x-nav-link :href="route('admin.test-review.index')" :active="request()->routeIs('admin.test-review.*')" wire:navigate>
-                            <x-app-icon name="plans" class="h-4 w-4" />
-                            {{ __('Проверка тестов') }}
-                        </x-nav-link>
+                        @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::TestReview))
+                            <x-nav-link :href="route('admin.test-review.index')" :active="request()->routeIs('admin.test-review.*')" wire:navigate>
+                                <x-app-icon name="plans" class="h-4 w-4" />
+                                {{ __('Проверка тестов') }}
+                            </x-nav-link>
+                        @endif
 
-                        <x-nav-link :href="route('admin.analytics.index')" :active="request()->routeIs('admin.analytics.*')" wire:navigate>
-                            <x-app-icon name="chart" class="h-4 w-4" />
-                            {{ __('Аналитика') }}
-                        </x-nav-link>
+                        @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::Analytics))
+                            <x-nav-link :href="route('admin.analytics.index')" :active="request()->routeIs('admin.analytics.*')" wire:navigate>
+                                <x-app-icon name="chart" class="h-4 w-4" />
+                                {{ __('Аналитика') }}
+                            </x-nav-link>
+                        @endif
 
-                        <x-nav-link :href="route('admin.post-course-support.index')" :active="request()->routeIs('admin.post-course-support.*')" wire:navigate>
-                            <x-app-icon name="events" class="h-4 w-4" />
-                            {{ __('Посткурсовое сопровождение') }}
-                        </x-nav-link>
+                        @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::PostCourseSupport))
+                            <x-nav-link :href="route('admin.post-course-support.index')" :active="request()->routeIs('admin.post-course-support.*')" wire:navigate>
+                                <x-app-icon name="events" class="h-4 w-4" />
+                                {{ __('Посткурсовое сопровождение') }}
+                            </x-nav-link>
+                        @endif
+
+                        @if (auth()->user()->isAdmin())
+                            <x-nav-link :href="route('admin.curators.index')" :active="request()->routeIs('admin.curators.*')" wire:navigate>
+                                <x-app-icon name="user-group" class="h-4 w-4" />
+                                {{ __('Кураторы') }}
+                            </x-nav-link>
+                        @endif
                     @else
                         <x-nav-link :href="route('listener.certificates.index')" :active="request()->routeIs('listener.certificates.*')" wire:navigate>
                             <x-app-icon name="certificate" class="h-4 w-4" />
@@ -133,26 +150,42 @@ new class extends Component
                 {{ __('Главная') }}
             </x-responsive-nav-link>
 
-            @if (auth()->user()->isAdmin())
-                <x-responsive-nav-link :href="route('admin.courses.index')" :active="request()->routeIs('admin.courses.*') || request()->routeIs('admin.lessons.*')" wire:navigate>
-                    {{ __('Курсы') }}
-                </x-responsive-nav-link>
+            @if (auth()->user()->isAdmin() || auth()->user()->isCurator())
+                @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::Courses) || auth()->user()->hasPermission(\App\Enums\CuratorPermission::VideoMeetings))
+                    <x-responsive-nav-link :href="route('admin.courses.index')" :active="request()->routeIs('admin.courses.*') || request()->routeIs('admin.lessons.*')" wire:navigate>
+                        {{ __('Курсы') }}
+                    </x-responsive-nav-link>
+                @endif
 
-                <x-responsive-nav-link :href="route('admin.listeners.index')" :active="request()->routeIs('admin.listeners.*')" wire:navigate>
-                    {{ __('Слушатели') }}
-                </x-responsive-nav-link>
+                @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::Listeners))
+                    <x-responsive-nav-link :href="route('admin.listeners.index')" :active="request()->routeIs('admin.listeners.*')" wire:navigate>
+                        {{ __('Слушатели') }}
+                    </x-responsive-nav-link>
+                @endif
 
-                <x-responsive-nav-link :href="route('admin.test-review.index')" :active="request()->routeIs('admin.test-review.*')" wire:navigate>
-                    {{ __('Проверка тестов') }}
-                </x-responsive-nav-link>
+                @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::TestReview))
+                    <x-responsive-nav-link :href="route('admin.test-review.index')" :active="request()->routeIs('admin.test-review.*')" wire:navigate>
+                        {{ __('Проверка тестов') }}
+                    </x-responsive-nav-link>
+                @endif
 
-                <x-responsive-nav-link :href="route('admin.analytics.index')" :active="request()->routeIs('admin.analytics.*')" wire:navigate>
-                    {{ __('Аналитика') }}
-                </x-responsive-nav-link>
+                @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::Analytics))
+                    <x-responsive-nav-link :href="route('admin.analytics.index')" :active="request()->routeIs('admin.analytics.*')" wire:navigate>
+                        {{ __('Аналитика') }}
+                    </x-responsive-nav-link>
+                @endif
 
-                <x-responsive-nav-link :href="route('admin.post-course-support.index')" :active="request()->routeIs('admin.post-course-support.*')" wire:navigate>
-                    {{ __('Посткурсовое сопровождение') }}
-                </x-responsive-nav-link>
+                @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::PostCourseSupport))
+                    <x-responsive-nav-link :href="route('admin.post-course-support.index')" :active="request()->routeIs('admin.post-course-support.*')" wire:navigate>
+                        {{ __('Посткурсовое сопровождение') }}
+                    </x-responsive-nav-link>
+                @endif
+
+                @if (auth()->user()->isAdmin())
+                    <x-responsive-nav-link :href="route('admin.curators.index')" :active="request()->routeIs('admin.curators.*')" wire:navigate>
+                        {{ __('Кураторы') }}
+                    </x-responsive-nav-link>
+                @endif
             @else
                 <x-responsive-nav-link :href="route('listener.certificates.index')" :active="request()->routeIs('listener.certificates.*')" wire:navigate>
                     {{ __('Мои сертификаты') }}

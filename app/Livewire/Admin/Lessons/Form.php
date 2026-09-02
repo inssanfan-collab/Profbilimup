@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Lessons;
 
+use App\Enums\CuratorPermission;
 use App\Livewire\Concerns\HasPageHeader;
 use App\Models\Lesson;
 use App\Models\LessonFile;
@@ -29,6 +30,9 @@ class Form extends Component
 
     public function mount(Lesson $lesson): void
     {
+        abort_unless(auth()->user()->hasPermission(CuratorPermission::Courses), 403);
+        abort_unless(auth()->user()->hasCourseAccess($lesson->courseModule->course), 403);
+
         $this->lesson = $lesson;
         $this->title = $lesson->title;
         $this->content_html = (string) $lesson->content_html;

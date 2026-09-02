@@ -12,8 +12,12 @@
                 </p>
                 <div class="mt-1 flex items-center gap-3">
                     <a href="{{ route('admin.courses.edit', $course) }}" wire:navigate class="text-sm text-blue-700 hover:text-blue-900">{{ __('Изменить параметры курса') }}</a>
-                    <a href="{{ route('admin.courses.assign', $course) }}" wire:navigate class="text-sm text-blue-700 hover:text-blue-900">{{ __('Назначить слушателям') }}</a>
-                    <a href="{{ route('admin.video-meetings.index', $course) }}" wire:navigate class="text-sm text-blue-700 hover:text-blue-900">{{ __('Видеоуроки') }}</a>
+                    @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::Listeners))
+                        <a href="{{ route('admin.courses.assign', $course) }}" wire:navigate class="text-sm text-blue-700 hover:text-blue-900">{{ __('Назначить слушателям') }}</a>
+                    @endif
+                    @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::VideoMeetings))
+                        <a href="{{ route('admin.video-meetings.index', $course) }}" wire:navigate class="text-sm text-blue-700 hover:text-blue-900">{{ __('Видеоуроки') }}</a>
+                    @endif
                 </div>
             </div>
 

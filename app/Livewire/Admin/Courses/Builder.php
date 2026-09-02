@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Courses;
 
 use App\Enums\CourseStatus;
+use App\Enums\CuratorPermission;
 use App\Livewire\Concerns\HasPageHeader;
 use App\Models\Course;
 use App\Models\CourseModule;
@@ -34,6 +35,9 @@ class Builder extends Component
 
     public function mount(Course $course): void
     {
+        abort_unless(auth()->user()->hasPermission(CuratorPermission::Courses), 403);
+        abort_unless(auth()->user()->hasCourseAccess($course), 403);
+
         $this->course = $course;
     }
 

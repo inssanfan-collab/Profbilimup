@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Courses;
 
 use App\Enums\CourseStatus;
+use App\Enums\CuratorPermission;
 use App\Livewire\Concerns\HasPageHeader;
 use App\Models\Course;
 use Illuminate\Contracts\View\View;
@@ -24,11 +25,19 @@ class Form extends Component
 
     public function mount(?Course $course = null): void
     {
+        abort_unless(auth()->user()->hasPermission(CuratorPermission::Courses), 403);
+
         if ($course?->exists) {
+            abort_unless(auth()->user()->hasCourseAccess($course), 403);
+
             $this->course = $course;
             $this->title = $course->title;
             $this->description = (string) $course->description;
             $this->academic_hours = $course->academic_hours;
+        } else {
+            // Куратор с ограниченным списком курсов не может создавать новые —
+            // новый курс по определению не входит в заранее заданный список.
+            abort_unless(auth()->user()->isAdmin() || auth()->user()->has_all_courses_access, 403);
         }
     }
 

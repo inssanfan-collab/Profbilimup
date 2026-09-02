@@ -8,6 +8,8 @@ use App\Livewire\Admin\Courses\Assign as CourseAssign;
 use App\Livewire\Admin\Courses\Builder as CourseBuilder;
 use App\Livewire\Admin\Courses\Form as CourseForm;
 use App\Livewire\Admin\Courses\Index as CoursesIndex;
+use App\Livewire\Admin\Curators\Form as CuratorForm;
+use App\Livewire\Admin\Curators\Index as CuratorsIndex;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\Admin\Lessons\Form as LessonForm;
 use App\Livewire\Admin\Lessons\TestBuilder;
@@ -49,3 +51,7 @@ Route::get('analytics/listeners/{listener}', ListenerReport::class)->name('analy
 
 Route::get('post-course-support', PostCourseSupportIndex::class)->name('post-course-support.index');
 Route::get('post-course-support/{assignment}', PostCourseSupportShow::class)->name('post-course-support.show');
+
+Route::get('curators', CuratorsIndex::class)->name('curators.index');
+Route::get('curators/create', CuratorForm::class)->name('curators.create');
+Route::get('curators/{user}/edit', CuratorForm::class)->name('curators.edit');

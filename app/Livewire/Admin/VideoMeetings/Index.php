@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\VideoMeetings;
 
+use App\Enums\CuratorPermission;
 use App\Enums\VideoMeetingStatus;
 use App\Livewire\Concerns\HasPageHeader;
 use App\Models\Course;
@@ -29,6 +30,9 @@ class Index extends Component
 
     public function mount(Course $course): void
     {
+        abort_unless(auth()->user()->hasPermission(CuratorPermission::VideoMeetings), 403);
+        abort_unless(auth()->user()->hasCourseAccess($course), 403);
+
         $this->course = $course;
         $this->name = __('Видеоурок: :title', ['title' => $course->title]);
     }

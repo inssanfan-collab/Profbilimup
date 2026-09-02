@@ -22,7 +22,7 @@ Route::get('locale/{locale}', [LocaleController::class, 'update'])->name('locale
 Route::get('dashboard', function () {
     $user = request()->user();
 
-    return redirect()->route($user->isAdmin() ? 'admin.dashboard' : 'listener.dashboard');
+    return redirect()->route($user->isAdmin() || $user->isCurator() ? 'admin.dashboard' : 'listener.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::view('profile', 'profile')

@@ -17,6 +17,15 @@ class Dashboard extends Component
 {
     use HasPageHeader;
 
+    public function mount(): void
+    {
+        // Общая статистика по всей платформе осмысленна только для настоящего админа —
+        // куратора сразу отправляем туда, где для его набора прав есть польза.
+        if (! auth()->user()->isAdmin()) {
+            $this->redirect(route('admin.courses.index'));
+        }
+    }
+
     public function render(TestGradingService $testGradingService): View
     {
         $overdueAssignments = CourseAssignment::query()

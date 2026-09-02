@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\PostCourseSupport;
 
+use App\Enums\CuratorPermission;
 use App\Enums\PostCourseSupportStatus;
 use App\Livewire\Concerns\HasPageHeader;
 use App\Models\CourseAssignment;
@@ -25,6 +26,9 @@ class Show extends Component
 
     public function mount(CourseAssignment $assignment): void
     {
+        abort_unless(auth()->user()->hasPermission(CuratorPermission::PostCourseSupport), 403);
+        abort_unless(auth()->user()->hasCourseAccess($assignment->course), 403);
+
         $this->assignment = $assignment;
     }
 

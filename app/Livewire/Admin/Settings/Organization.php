@@ -23,6 +23,8 @@ class Organization extends Component
 
     public function mount(): void
     {
+        abort_unless(auth()->user()->isAdmin(), 403);
+
         $settings = OrganizationSettings::current();
 
         $this->name_ru = (string) $settings->name_ru;

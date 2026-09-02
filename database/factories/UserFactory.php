@@ -50,4 +50,16 @@ class UserFactory extends Factory
             'role' => UserRole::Admin,
         ]);
     }
+
+    /**
+     * @param  array<int, string>  $permissions  Значения App\Enums\CuratorPermission
+     */
+    public function curator(array $permissions = [], bool $hasAllCoursesAccess = false): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::Curator,
+            'permissions' => $permissions,
+            'has_all_courses_access' => $hasAllCoursesAccess,
+        ]);
+    }
 }

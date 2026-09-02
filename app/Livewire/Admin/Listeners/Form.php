@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Listeners;
 
+use App\Enums\CuratorPermission;
 use App\Enums\UserLocale;
 use App\Enums\UserRole;
 use App\Livewire\Concerns\HasPageHeader;
@@ -42,7 +43,14 @@ class Form extends Component
 
     public function mount(?User $user = null): void
     {
+        abort_unless(auth()->user()->hasPermission(CuratorPermission::Listeners), 403);
+
         if ($user?->exists) {
+            $courseIds = auth()->user()->scopedCourseIds();
+            if ($courseIds !== null) {
+                abort_unless($user->courseAssignments()->whereIn('course_id', $courseIds)->exists(), 403);
+            }
+
             $this->user = $user;
             $this->email = $user->email;
             $this->locale = $user->locale->value;

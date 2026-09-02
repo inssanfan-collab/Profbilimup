@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Lessons;
 
+use App\Enums\CuratorPermission;
 use App\Enums\QuestionType;
 use App\Livewire\Concerns\HasPageHeader;
 use App\Models\Lesson;
@@ -37,6 +38,9 @@ class TestBuilder extends Component
 
     public function mount(Lesson $lesson): void
     {
+        abort_unless(auth()->user()->hasPermission(CuratorPermission::Courses), 403);
+        abort_unless(auth()->user()->hasCourseAccess($lesson->courseModule->course), 403);
+
         $this->lesson = $lesson;
 
         if ($test = $lesson->test) {
