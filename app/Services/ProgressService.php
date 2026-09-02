@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\CourseAssignment;
 use App\Models\Lesson;
 use App\Models\User;
+use App\Notifications\CourseAssignedNotification;
 use Illuminate\Support\Facades\DB;
 
 class ProgressService
@@ -31,6 +32,8 @@ class ProgressService
                     'status' => LessonProgressStatus::Locked,
                 ]);
             }
+
+            $listener->notify(new CourseAssignedNotification($assignment));
 
             return $assignment;
         });

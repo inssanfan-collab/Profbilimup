@@ -5,13 +5,17 @@ namespace App\Services;
 use App\Enums\AssignmentStatus;
 use App\Enums\QuestionType;
 use App\Enums\TestAttemptStatus;
+use App\Enums\UserRole;
 use App\Models\CourseAssignment;
 use App\Models\Test;
 use App\Models\TestAnswer;
 use App\Models\TestAttempt;
 use App\Models\User;
+use App\Notifications\TestAwaitingReviewNotification;
+use App\Notifications\TestGradedNotification;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use RuntimeException;
 
 class TestGradingService
@@ -91,7 +95,13 @@ class TestGradingService
         $hasUngraded = $attempt->answers()->whereNull('points_awarded')->exists();
 
         if ($hasUngraded) {
+            $wasAlreadyAwaitingReview = $attempt->status === TestAttemptStatus::AwaitingReview;
+
             $attempt->update(['status' => TestAttemptStatus::AwaitingReview]);
+
+            if (! $wasAlreadyAwaitingReview) {
+                Notification::send(User::where('role', UserRole::Admin)->get(), new TestAwaitingReviewNotification($attempt));
+            }
 
             return;
         }
@@ -129,6 +139,8 @@ class TestGradingService
             'score_percent' => $scorePercent,
             'passed' => $passed,
         ]);
+
+        $attempt->listener->notify(new TestGradedNotification($attempt->fresh()));
 
         if ($passed) {
             $this->unlockLessonForPassedAttempt($attempt);

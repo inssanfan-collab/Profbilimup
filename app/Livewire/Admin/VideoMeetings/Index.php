@@ -6,9 +6,11 @@ use App\Enums\VideoMeetingStatus;
 use App\Livewire\Concerns\HasPageHeader;
 use App\Models\Course;
 use App\Models\VideoMeeting;
+use App\Notifications\VideoMeetingScheduledNotification;
 use App\Services\VideoConferenceService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -51,7 +53,7 @@ class Index extends Component
             return;
         }
 
-        $this->course->videoMeetings()->create([
+        $meeting = $this->course->videoMeetings()->create([
             'created_by' => auth()->id(),
             'external_meeting_id' => $externalMeetingId,
             'name' => $validated['name'],
@@ -60,6 +62,9 @@ class Index extends Component
             'status' => VideoMeetingStatus::Scheduled,
             'starts_at' => $validated['startsAt'] !== '' ? $validated['startsAt'] : null,
         ]);
+
+        $listeners = $this->course->assignments()->with('listener')->get()->pluck('listener');
+        Notification::send($listeners, new VideoMeetingScheduledNotification($meeting));
 
         $this->reset('startsAt');
         $this->name = __('Видеоурок: :title', ['title' => $this->course->title]);

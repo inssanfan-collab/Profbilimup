@@ -9,6 +9,7 @@ use App\Models\Certificate;
 use App\Models\CertificateModuleGrade;
 use App\Models\CourseAssignment;
 use App\Models\OrganizationSettings;
+use App\Notifications\CertificateIssuedNotification;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Endroid\QrCode\Builder\Builder;
 use Illuminate\Support\Facades\DB;
@@ -47,7 +48,10 @@ class CertificateService
                 'pdf_path' => $this->renderPdf($certificate, $assignment, $organization),
             ]);
 
-            return $certificate->fresh();
+            $certificate = $certificate->fresh();
+            $assignment->listener->notify(new CertificateIssuedNotification($certificate));
+
+            return $certificate;
         });
     }
 
