@@ -20,6 +20,16 @@ $map = [
     'plans' => 'clipboard-document-check',
     'organization' => 'building-office',
     'bell' => 'bell',
+    'shield-check' => 'shield-check',
+    'qr-code' => 'qr-code',
+    'arrow-right' => 'arrow-right',
+    'arrow-long-right' => 'arrow-long-right',
+    'sparkles' => 'sparkles',
+    'user-group' => 'user-group',
+    'search' => 'magnifying-glass',
+    'verified' => 'check-badge',
+    'identification' => 'identification',
+    'language' => 'globe-alt',
 ];
 
 $icon = $map[$name] ?? 'question-mark-circle';
