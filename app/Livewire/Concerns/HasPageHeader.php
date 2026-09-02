@@ -9,7 +9,7 @@ trait HasPageHeader
     protected function pageHeader(string $title): HtmlString
     {
         return new HtmlString(
-            '<h2 class="font-semibold text-xl text-gray-800 leading-tight">'.e($title).'</h2>'
+            '<h2 class="font-bold text-2xl text-gray-900 leading-tight tracking-tight">'.e($title).'</h2>'
         );
     }
 }

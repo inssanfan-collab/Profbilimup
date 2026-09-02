@@ -22,40 +22,48 @@ new class extends Component
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}" wire:navigate>
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                <div class="shrink-0 flex items-center gap-2.5">
+                    <a href="{{ route('dashboard') }}" wire:navigate class="flex items-center gap-2.5">
+                        <x-application-logo class="block h-9 w-9 rounded-lg" />
+                        <span class="hidden md:inline font-bold text-gray-900">{{ config('app.name', 'BilimUP') }}</span>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-6 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                        <x-app-icon name="courses" class="h-4 w-4" />
                         {{ __('Главная') }}
                     </x-nav-link>
 
                     @if (auth()->user()->isAdmin())
                         <x-nav-link :href="route('admin.courses.index')" :active="request()->routeIs('admin.courses.*') || request()->routeIs('admin.lessons.*')" wire:navigate>
+                            <x-app-icon name="courses" class="h-4 w-4" />
                             {{ __('Курсы') }}
                         </x-nav-link>
 
                         <x-nav-link :href="route('admin.listeners.index')" :active="request()->routeIs('admin.listeners.*')" wire:navigate>
+                            <x-app-icon name="users" class="h-4 w-4" />
                             {{ __('Слушатели') }}
                         </x-nav-link>
 
                         <x-nav-link :href="route('admin.test-review.index')" :active="request()->routeIs('admin.test-review.*')" wire:navigate>
+                            <x-app-icon name="plans" class="h-4 w-4" />
                             {{ __('Проверка тестов') }}
                         </x-nav-link>
 
                         <x-nav-link :href="route('admin.analytics.index')" :active="request()->routeIs('admin.analytics.*')" wire:navigate>
+                            <x-app-icon name="chart" class="h-4 w-4" />
                             {{ __('Аналитика') }}
                         </x-nav-link>
 
                         <x-nav-link :href="route('admin.post-course-support.index')" :active="request()->routeIs('admin.post-course-support.*')" wire:navigate>
+                            <x-app-icon name="events" class="h-4 w-4" />
                             {{ __('Посткурсовое сопровождение') }}
                         </x-nav-link>
                     @else
                         <x-nav-link :href="route('listener.certificates.index')" :active="request()->routeIs('listener.certificates.*')" wire:navigate>
+                            <x-app-icon name="certificate" class="h-4 w-4" />
                             {{ __('Мои сертификаты') }}
                         </x-nav-link>
                     @endif
@@ -63,7 +71,7 @@ new class extends Component
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6 gap-2">
+            <div class="hidden sm:flex sm:items-center sm:ms-6 gap-3">
                 <div class="flex items-center text-xs text-gray-400 gap-1">
                     <a href="{{ route('locale.update', 'ru') }}" class="{{ app()->getLocale() === 'ru' ? 'font-semibold text-gray-700' : 'hover:text-gray-600' }}">RU</a>
                     <span>/</span>
@@ -74,7 +82,7 @@ new class extends Component
 
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-lg text-gray-600 bg-white hover:bg-gray-50 hover:text-gray-800 focus:outline-none transition ease-in-out duration-150">
                             <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
 
                             <div class="ms-1">

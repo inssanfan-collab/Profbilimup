@@ -8,6 +8,7 @@ use App\Livewire\Admin\Courses\Assign as CourseAssign;
 use App\Livewire\Admin\Courses\Builder as CourseBuilder;
 use App\Livewire\Admin\Courses\Form as CourseForm;
 use App\Livewire\Admin\Courses\Index as CoursesIndex;
+use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\Admin\Lessons\Form as LessonForm;
 use App\Livewire\Admin\Lessons\TestBuilder;
 use App\Livewire\Admin\Listeners\Form as ListenerForm;
@@ -20,7 +21,7 @@ use App\Livewire\Admin\TestReview\Review as TestReviewReview;
 use App\Livewire\Admin\VideoMeetings\Index as VideoMeetingsIndex;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'admin.dashboard')->name('dashboard');
+Route::get('/', AdminDashboard::class)->name('dashboard');
 
 Route::get('listeners', ListenersIndex::class)->name('listeners.index');
 Route::get('listeners/create', ListenerForm::class)->name('listeners.create');
