@@ -16,6 +16,12 @@
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+            <div class="flex items-center text-xs text-gray-400 gap-1 mb-2">
+                <a href="{{ route('locale.update', 'ru') }}" class="{{ app()->getLocale() === 'ru' ? 'font-semibold text-gray-700' : 'hover:text-gray-600' }}">RU</a>
+                <span>/</span>
+                <a href="{{ route('locale.update', 'kk') }}" class="{{ app()->getLocale() === 'kk' ? 'font-semibold text-gray-700' : 'hover:text-gray-600' }}">KK</a>
+            </div>
+
             <div>
                 <a href="/" wire:navigate>
                     <x-application-logo class="w-20 h-20 fill-current text-gray-500" />

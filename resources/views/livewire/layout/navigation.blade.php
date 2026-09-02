@@ -60,6 +60,12 @@ new class extends Component
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6 gap-2">
+                <div class="flex items-center text-xs text-gray-400 gap-1">
+                    <a href="{{ route('locale.update', 'ru') }}" class="{{ app()->getLocale() === 'ru' ? 'font-semibold text-gray-700' : 'hover:text-gray-600' }}">RU</a>
+                    <span>/</span>
+                    <a href="{{ route('locale.update', 'kk') }}" class="{{ app()->getLocale() === 'kk' ? 'font-semibold text-gray-700' : 'hover:text-gray-600' }}">KK</a>
+                </div>
+
                 <livewire:shared.notification-bell />
 
                 <x-dropdown align="right" width="48">
