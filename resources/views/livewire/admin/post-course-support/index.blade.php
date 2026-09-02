@@ -1,6 +1,6 @@
 <div class="py-12">
     <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="bg-white overflow-hidden rounded-xl border border-gray-100 shadow-card">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -18,26 +18,28 @@
                             <td class="px-6 py-4 whitespace-nowrap">{{ $assignment->course->title }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @switch($assignment->postCoursePlan?->status)
-                                    @case(\App\Enums\PostCourseSupportStatus::Approved) <span class="text-green-600">{{ __('Одобрен') }}</span> @break
-                                    @case(\App\Enums\PostCourseSupportStatus::Submitted) <span class="text-amber-600">{{ __('На проверке') }}</span> @break
-                                    @case(\App\Enums\PostCourseSupportStatus::Rejected) <span class="text-red-600">{{ __('На доработке') }}</span> @break
-                                    @default <span class="text-gray-400">{{ __('Не подан') }}</span>
+                                    @case(\App\Enums\PostCourseSupportStatus::Approved) <x-badge color="green">{{ __('Одобрен') }}</x-badge> @break
+                                    @case(\App\Enums\PostCourseSupportStatus::Submitted) <x-badge color="amber">{{ __('На проверке') }}</x-badge> @break
+                                    @case(\App\Enums\PostCourseSupportStatus::Rejected) <x-badge color="red">{{ __('На доработке') }}</x-badge> @break
+                                    @default <x-badge color="gray">{{ __('Не подан') }}</x-badge>
                                 @endswitch
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if ($assignment->postCourseReference)
-                                    <span class="text-green-600">{{ __('Выдана') }}</span>
+                                    <x-badge color="green">{{ __('Выдана') }}</x-badge>
                                 @else
                                     <span class="text-gray-400">—</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right">
-                                <a href="{{ route('admin.post-course-support.show', $assignment) }}" wire:navigate class="text-indigo-600 hover:text-indigo-900">{{ __('Открыть') }}</a>
+                                <a href="{{ route('admin.post-course-support.show', $assignment) }}" wire:navigate class="text-blue-700 hover:text-blue-900">{{ __('Открыть') }}</a>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-8 text-center text-gray-500">{{ __('Пока нет завершённых курсов.') }}</td>
+                            <td colspan="5">
+                                <x-empty-state icon="events">{{ __('Пока нет завершённых курсов.') }}</x-empty-state>
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>

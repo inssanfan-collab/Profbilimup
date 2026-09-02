@@ -1,29 +1,29 @@
 <div class="py-12">
     <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
         <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
-            <div class="bg-white shadow-sm sm:rounded-lg p-4">
+            <x-card flat class="border-0 shadow-card !p-4">
                 <p class="text-xs text-gray-500 uppercase">{{ __('Слушателей') }}</p>
                 <p class="text-2xl font-semibold text-gray-800">{{ $totalListeners }}</p>
-            </div>
-            <div class="bg-white shadow-sm sm:rounded-lg p-4">
+            </x-card>
+            <x-card flat class="border-0 shadow-card !p-4">
                 <p class="text-xs text-gray-500 uppercase">{{ __('Курсов') }}</p>
                 <p class="text-2xl font-semibold text-gray-800">{{ $totalCourses }}</p>
-            </div>
-            <div class="bg-white shadow-sm sm:rounded-lg p-4">
+            </x-card>
+            <x-card flat class="border-0 shadow-card !p-4">
                 <p class="text-xs text-gray-500 uppercase">{{ __('Назначений') }}</p>
                 <p class="text-2xl font-semibold text-gray-800">{{ $totalAssignments }}</p>
-            </div>
-            <div class="bg-white shadow-sm sm:rounded-lg p-4">
+            </x-card>
+            <x-card flat class="border-0 shadow-card !p-4">
                 <p class="text-xs text-gray-500 uppercase">{{ __('Завершено') }}</p>
                 <p class="text-2xl font-semibold text-green-600">{{ $completionRate }}%</p>
-            </div>
-            <div class="bg-white shadow-sm sm:rounded-lg p-4">
+            </x-card>
+            <x-card flat class="border-0 shadow-card !p-4">
                 <p class="text-xs text-gray-500 uppercase">{{ __('Просрочено') }}</p>
                 <p class="text-2xl font-semibold text-red-600">{{ $overdueAssignments }}</p>
-            </div>
+            </x-card>
         </div>
 
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="bg-white overflow-hidden rounded-xl border border-gray-100 shadow-card">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -48,12 +48,14 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right">
-                                <a href="{{ route('admin.analytics.course', $course) }}" wire:navigate class="text-indigo-600 hover:text-indigo-900">{{ __('Подробнее') }}</a>
+                                <a href="{{ route('admin.analytics.course', $course) }}" wire:navigate class="text-blue-700 hover:text-blue-900">{{ __('Подробнее') }}</a>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-8 text-center text-gray-500">{{ __('Курсов пока нет.') }}</td>
+                            <td colspan="5">
+                                <x-empty-state icon="chart">{{ __('Курсов пока нет.') }}</x-empty-state>
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>

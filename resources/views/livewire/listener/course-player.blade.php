@@ -1,12 +1,11 @@
 <div class="py-12">
     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
         @if ($assignment->isOverdue())
-            <div class="bg-red-50 border border-red-200 text-red-800 rounded-md p-6">
+            <div class="bg-red-50 border border-red-200 text-red-800 rounded-xl p-6">
                 {{ __('Срок прохождения курса истёк. Доступ к урокам закрыт. Обратитесь к администратору для продления срока.') }}
             </div>
         @elseif (! $assignment->agreement_accepted_at)
-            <div class="bg-white shadow-sm sm:rounded-lg p-6 space-y-4">
-                <h3 class="text-lg font-semibold text-gray-800">{{ __('Соглашение на обучение') }}</h3>
+            <x-card :title="__('Соглашение на обучение')">
                 <div class="text-sm text-gray-600 space-y-2">
                     <p>{{ __('Настоящим подтверждаю, что являюсь слушателем курса повышения квалификации ":title" и принимаю следующие обязательства:', ['title' => $assignment->course->title]) }}</p>
                     <ul class="list-disc list-inside space-y-1">
@@ -15,57 +14,69 @@
                         <li>{{ __('пройти итоговое оценивание в установленной форме.') }}</li>
                     </ul>
                 </div>
-                <button wire:click="acceptAgreement" type="button"
-                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+                <x-primary-button wire:click="acceptAgreement" type="button" class="mt-4">
                     {{ __('Согласен, начать курс') }}
-                </button>
-            </div>
+                </x-primary-button>
+            </x-card>
         @else
             @if ($videoMeetings->isNotEmpty())
-                <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-3">{{ __('Видеоуроки') }}</h3>
-                    <ul class="divide-y divide-gray-100">
+                <x-card :title="__('Видеоуроки')">
+                    <ul class="divide-y divide-gray-100 -mx-6">
                         @foreach ($videoMeetings as $meeting)
-                            <li class="py-3 flex items-center justify-between">
-                                <div>
-                                    <p class="text-gray-800">{{ $meeting->name }}</p>
-                                    @if ($meeting->starts_at)
-                                        <p class="text-xs text-gray-500">{{ $meeting->starts_at->format('d.m.Y H:i') }}</p>
-                                    @endif
+                            <li class="px-6 py-3 flex items-center justify-between gap-4">
+                                <div class="flex items-center gap-3">
+                                    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-700">
+                                        <x-app-icon name="video" class="h-4 w-4" />
+                                    </span>
+                                    <div>
+                                        <p class="text-gray-800">{{ $meeting->name }}</p>
+                                        @if ($meeting->starts_at)
+                                            <p class="text-xs text-gray-500">{{ $meeting->starts_at->format('d.m.Y H:i') }}</p>
+                                        @endif
+                                    </div>
                                 </div>
-                                <button wire:click="joinVideoMeeting({{ $meeting->id }})" type="button"
-                                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+                                <x-secondary-button wire:click="joinVideoMeeting({{ $meeting->id }})" type="button">
                                     {{ __('Присоединиться') }}
-                                </button>
+                                </x-secondary-button>
                             </li>
                         @endforeach
                     </ul>
-                </div>
+                </x-card>
             @endif
 
             @foreach ($modules as $module)
-                <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-3">{{ $module->title }}</h3>
-                    <ul class="divide-y divide-gray-100">
+                <x-card :title="$module->title">
+                    <ul class="divide-y divide-gray-100 -mx-6">
                         @foreach ($module->lessons as $lesson)
                             @php $progress = $progressByLessonId->get($lesson->id) @endphp
-                            <li class="py-3 flex items-center justify-between">
+                            <li class="px-6 py-3 flex items-center justify-between gap-4">
                                 @if ($progress?->status === \App\Enums\LessonProgressStatus::Completed)
-                                    <a href="{{ route('listener.lessons.show', [$assignment, $lesson]) }}" wire:navigate class="text-gray-700 hover:text-indigo-600">
-                                        ✓ {{ $lesson->title }}
+                                    <a href="{{ route('listener.lessons.show', [$assignment, $lesson]) }}" wire:navigate class="flex items-center gap-3 min-w-0 text-gray-700 hover:text-blue-700">
+                                        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-50 text-green-600">
+                                            <x-app-icon name="check" class="h-4 w-4" />
+                                        </span>
+                                        <span class="truncate">{{ $lesson->title }}</span>
                                     </a>
-                                    <span class="text-xs text-green-600">{{ __('Завершён') }}</span>
+                                    <x-badge color="green" class="shrink-0">{{ __('Завершён') }}</x-badge>
                                 @elseif ($progress?->status === \App\Enums\LessonProgressStatus::Available)
-                                    <a href="{{ route('listener.lessons.show', [$assignment, $lesson]) }}" wire:navigate class="text-indigo-600 hover:text-indigo-900 font-medium">
-                                        {{ $lesson->title }}
+                                    <a href="{{ route('listener.lessons.show', [$assignment, $lesson]) }}" wire:navigate class="flex items-center gap-3 min-w-0 text-blue-700 hover:text-blue-900 font-medium">
+                                        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-700 text-white text-sm font-semibold">
+                                            {{ $loop->iteration }}
+                                        </span>
+                                        <span class="truncate">{{ $lesson->title }}</span>
                                     </a>
                                 @else
-                                    <span class="text-gray-400">🔒 {{ $lesson->title }}</span>
+                                    <span class="flex items-center gap-3 min-w-0 text-gray-400">
+                                        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-400">
+                                            <x-app-icon name="lock" class="h-4 w-4" />
+                                        </span>
+                                        <span class="truncate">{{ $lesson->title }}</span>
+                                    </span>
                                 @endif
                             </li>
                         @endforeach
                     </ul>
-                </div>
+                </x-card>
             @endforeach
         @endif
     </div>

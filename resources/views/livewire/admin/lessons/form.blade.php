@@ -1,15 +1,16 @@
 <div class="py-12" x-data>
     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
         <div class="flex items-center justify-between">
-            <a href="{{ route('admin.courses.builder', $lesson->courseModule->course_id) }}" wire:navigate class="text-sm text-indigo-600 hover:text-indigo-900">
+            <a href="{{ route('admin.courses.builder', $lesson->courseModule->course_id) }}" wire:navigate class="text-sm text-blue-700 hover:text-blue-900">
                 &larr; {{ __('Назад к структуре курса') }}
             </a>
-            <a href="{{ route('admin.lessons.test', $lesson) }}" wire:navigate class="text-sm text-indigo-600 hover:text-indigo-900">
-                {{ $lesson->test ? __('Редактировать тест') : __('Добавить тест') }} &rarr;
+            <a href="{{ route('admin.lessons.test', $lesson) }}" wire:navigate class="inline-flex items-center gap-1 text-sm text-blue-700 hover:text-blue-900">
+                {{ $lesson->test ? __('Редактировать тест') : __('Добавить тест') }}
+                <x-app-icon name="chevron-right" class="h-4 w-4" />
             </a>
         </div>
 
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 space-y-6">
+        <x-card class="space-y-6">
             <form wire:submit="save" class="space-y-6">
                 <div>
                     <x-input-label for="title" :value="__('Название урока')" />
@@ -24,7 +25,7 @@
 
                     @if ($this->videoEmbedUrl())
                         <div class="mt-3 aspect-video max-w-md">
-                            <iframe src="{{ $this->videoEmbedUrl() }}" class="w-full h-full rounded-md" allowfullscreen></iframe>
+                            <iframe src="{{ $this->videoEmbedUrl() }}" class="w-full h-full rounded-lg" allowfullscreen></iframe>
                         </div>
                     @endif
                 </div>
@@ -48,7 +49,7 @@
                 <ul class="mt-2 divide-y divide-gray-100">
                     @forelse ($files as $file)
                         <li class="py-2 flex items-center justify-between text-sm">
-                            <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($file->path) }}" target="_blank" class="text-indigo-600 hover:text-indigo-900">{{ $file->original_name }}</a>
+                            <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($file->path) }}" target="_blank" class="text-blue-700 hover:text-blue-900">{{ $file->original_name }}</a>
                             <button wire:click="deleteFile({{ $file->id }})" wire:confirm="{{ __('Удалить файл?') }}" type="button" class="text-red-600 hover:text-red-900">{{ __('Удалить') }}</button>
                         </li>
                     @empty
@@ -63,6 +64,6 @@
                 </form>
                 <x-input-error :messages="$errors->get('newFiles.*')" class="mt-2" />
             </div>
-        </div>
+        </x-card>
     </div>
 </div>

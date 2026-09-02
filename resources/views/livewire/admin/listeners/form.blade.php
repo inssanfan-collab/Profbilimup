@@ -1,6 +1,6 @@
 <div class="py-12">
     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+        <x-card>
             <form wire:submit="save" class="space-y-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div class="sm:col-span-2">
@@ -23,7 +23,7 @@
 
                     <div>
                         <x-input-label for="locale" :value="__('Язык интерфейса')" />
-                        <select wire:model="locale" id="locale" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <select wire:model="locale" id="locale" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-600 focus:ring-blue-600">
                             <option value="ru">{{ __('Русский') }}</option>
                             <option value="kk">{{ __('Қазақша') }}</option>
                         </select>
@@ -66,6 +66,6 @@
                     <a href="{{ route('admin.listeners.index') }}" wire:navigate class="text-sm text-gray-600 hover:text-gray-900">{{ __('Отмена') }}</a>
                 </div>
             </form>
-        </div>
+        </x-card>
     </div>
 </div>

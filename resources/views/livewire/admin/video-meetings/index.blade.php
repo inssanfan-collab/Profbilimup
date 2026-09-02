@@ -1,10 +1,10 @@
 <div class="py-12">
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
-        <a href="{{ route('admin.courses.builder', $course) }}" wire:navigate class="text-sm text-indigo-600 hover:text-indigo-900">
+        <a href="{{ route('admin.courses.builder', $course) }}" wire:navigate class="text-sm text-blue-700 hover:text-blue-900">
             &larr; {{ __('Назад к структуре курса') }}
         </a>
 
-        <div class="bg-white shadow-sm sm:rounded-lg p-6">
+        <x-card>
             <form wire:submit="schedule" class="flex flex-wrap items-end gap-4">
                 <div class="flex-1 min-w-[220px]">
                     <x-input-label for="name" :value="__('Название встречи')" />
@@ -15,14 +15,14 @@
                 <div>
                     <x-input-label for="startsAt" :value="__('Дата и время (необязательно)')" />
                     <input type="datetime-local" wire:model="startsAt" id="startsAt"
-                        class="mt-1 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        class="mt-1 block rounded-lg border-gray-300 shadow-sm focus:border-blue-600 focus:ring-blue-600">
                 </div>
 
                 <x-primary-button>{{ __('Запланировать видеоурок') }}</x-primary-button>
             </form>
-        </div>
+        </x-card>
 
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="bg-white overflow-hidden rounded-xl border border-gray-100 shadow-card">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -39,21 +39,23 @@
                             <td class="px-6 py-4 whitespace-nowrap">{{ $meeting->starts_at?->format('d.m.Y H:i') ?? '—' }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if ($meeting->status === \App\Enums\VideoMeetingStatus::Ended)
-                                    <span class="text-gray-500">{{ __('Завершён') }}</span>
+                                    <x-badge color="gray">{{ __('Завершён') }}</x-badge>
                                 @else
-                                    <span class="text-green-600">{{ __('Запланирован') }}</span>
+                                    <x-badge color="green">{{ __('Запланирован') }}</x-badge>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right space-x-3">
                                 @if ($meeting->status !== \App\Enums\VideoMeetingStatus::Ended)
-                                    <button wire:click="joinAsModerator({{ $meeting->id }})" type="button" class="text-indigo-600 hover:text-indigo-900">{{ __('Войти') }}</button>
+                                    <button wire:click="joinAsModerator({{ $meeting->id }})" type="button" class="text-blue-700 hover:text-blue-900">{{ __('Войти') }}</button>
                                     <button wire:click="end({{ $meeting->id }})" wire:confirm="{{ __('Завершить видеоурок?') }}" type="button" class="text-red-600 hover:text-red-900">{{ __('Завершить') }}</button>
                                 @endif
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="px-6 py-8 text-center text-gray-500">{{ __('Видеоуроки пока не запланированы.') }}</td>
+                            <td colspan="4">
+                                <x-empty-state icon="video">{{ __('Видеоуроки пока не запланированы.') }}</x-empty-state>
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>

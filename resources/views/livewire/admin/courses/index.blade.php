@@ -2,12 +2,12 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
         <div class="flex items-center justify-end">
             <a href="{{ route('admin.courses.create') }}" wire:navigate
-                class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+                class="inline-flex items-center px-4 py-2.5 bg-blue-700 border border-transparent rounded-lg font-semibold text-sm text-white hover:bg-blue-800">
                 {{ __('Новый курс') }}
             </a>
         </div>
 
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="bg-white overflow-hidden rounded-xl border border-gray-100 shadow-card">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -27,23 +27,25 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @switch($course->status)
                                     @case(\App\Enums\CourseStatus::Published)
-                                        <span class="text-green-600">{{ __('Опубликован') }}</span>
+                                        <x-badge color="green">{{ __('Опубликован') }}</x-badge>
                                         @break
                                     @case(\App\Enums\CourseStatus::Archived)
-                                        <span class="text-gray-500">{{ __('В архиве') }}</span>
+                                        <x-badge color="gray">{{ __('В архиве') }}</x-badge>
                                         @break
                                     @default
-                                        <span class="text-amber-600">{{ __('Черновик') }}</span>
+                                        <x-badge color="amber">{{ __('Черновик') }}</x-badge>
                                 @endswitch
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right space-x-3">
-                                <a href="{{ route('admin.courses.builder', $course) }}" wire:navigate class="text-indigo-600 hover:text-indigo-900">{{ __('Редактировать содержимое') }}</a>
+                                <a href="{{ route('admin.courses.builder', $course) }}" wire:navigate class="text-blue-700 hover:text-blue-900">{{ __('Редактировать содержимое') }}</a>
                                 <a href="{{ route('admin.courses.edit', $course) }}" wire:navigate class="text-gray-600 hover:text-gray-900">{{ __('Параметры') }}</a>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-8 text-center text-gray-500">{{ __('Курсов пока нет.') }}</td>
+                            <td colspan="5">
+                                <x-empty-state icon="courses">{{ __('Курсов пока нет.') }}</x-empty-state>
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -1,6 +1,6 @@
 <div class="py-12">
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="bg-white overflow-hidden rounded-xl border border-gray-100 shadow-card">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -17,12 +17,14 @@
                             <td class="px-6 py-4 whitespace-nowrap">{{ $attempt->test->lesson->courseModule->course->title }} — {{ $attempt->test->lesson->title }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $attempt->submitted_at?->format('d.m.Y H:i') }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-right">
-                                <a href="{{ route('admin.test-review.show', $attempt) }}" wire:navigate class="text-indigo-600 hover:text-indigo-900">{{ __('Проверить') }}</a>
+                                <a href="{{ route('admin.test-review.show', $attempt) }}" wire:navigate class="text-blue-700 hover:text-blue-900">{{ __('Проверить') }}</a>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="px-6 py-8 text-center text-gray-500">{{ __('Нет ответов, ожидающих проверки.') }}</td>
+                            <td colspan="4">
+                                <x-empty-state icon="plans">{{ __('Нет ответов, ожидающих проверки.') }}</x-empty-state>
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>

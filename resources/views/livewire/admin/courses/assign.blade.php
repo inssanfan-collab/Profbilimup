@@ -1,14 +1,14 @@
 <div class="py-12">
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
-        <a href="{{ route('admin.courses.builder', $course) }}" wire:navigate class="text-sm text-indigo-600 hover:text-indigo-900">
+        <a href="{{ route('admin.courses.builder', $course) }}" wire:navigate class="text-sm text-blue-700 hover:text-blue-900">
             &larr; {{ __('Назад к структуре курса') }}
         </a>
 
-        <div class="bg-white shadow-sm sm:rounded-lg p-6">
+        <x-card>
             <form wire:submit="assign" class="flex flex-wrap items-end gap-4">
                 <div class="flex-1 min-w-[200px]">
                     <x-input-label for="listenerId" :value="__('Слушатель')" />
-                    <select wire:model="listenerId" id="listenerId" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <select wire:model="listenerId" id="listenerId" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-600 focus:ring-blue-600">
                         <option value="">{{ __('Выберите слушателя') }}</option>
                         @foreach ($availableListeners as $listener)
                             <option value="{{ $listener->id }}">{{ $listener->listenerProfile?->full_name ?? $listener->name }} ({{ $listener->email }})</option>
@@ -25,9 +25,9 @@
 
                 <x-primary-button>{{ __('Назначить') }}</x-primary-button>
             </form>
-        </div>
+        </x-card>
 
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="bg-white overflow-hidden rounded-xl border border-gray-100 shadow-card">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -45,21 +45,24 @@
                             <td class="px-6 py-4 whitespace-nowrap">{{ $assignment->deadline?->format('d.m.Y') ?? '—' }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if ($assignment->isOverdue())
-                                    <span class="text-red-600">{{ __('Просрочен') }}</span>
+                                    <x-badge color="red">{{ __('Просрочен') }}</x-badge>
                                 @else
-                                    <span>
-                                        @switch($assignment->status)
-                                            @case(\App\Enums\AssignmentStatus::Completed) {{ __('Завершён') }} @break
-                                            @case(\App\Enums\AssignmentStatus::InProgress) {{ __('В процессе') }} @break
-                                            @default {{ __('Назначен') }}
-                                        @endswitch
-                                    </span>
+                                    @switch($assignment->status)
+                                        @case(\App\Enums\AssignmentStatus::Completed)
+                                            <x-badge color="green">{{ __('Завершён') }}</x-badge>
+                                            @break
+                                        @case(\App\Enums\AssignmentStatus::InProgress)
+                                            <x-badge color="blue">{{ __('В процессе') }}</x-badge>
+                                            @break
+                                        @default
+                                            <x-badge color="gray">{{ __('Назначен') }}</x-badge>
+                                    @endswitch
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $assignment->progressPercent() }}%</td>
                             <td class="px-6 py-4 whitespace-nowrap text-right">
                                 @if ($assignment->certificate)
-                                    <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($assignment->certificate->pdf_path) }}" target="_blank" class="text-indigo-600 hover:text-indigo-900">
+                                    <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($assignment->certificate->pdf_path) }}" target="_blank" class="text-blue-700 hover:text-blue-900">
                                         {{ $assignment->certificate->typeLabel() }}
                                     </a>
                                 @elseif ($assignment->status !== \App\Enums\AssignmentStatus::Completed && $assignment->agreement_accepted_at)
@@ -71,7 +74,9 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-8 text-center text-gray-500">{{ __('Курс пока никому не назначен.') }}</td>
+                            <td colspan="5">
+                                <x-empty-state icon="users">{{ __('Курс пока никому не назначен.') }}</x-empty-state>
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>

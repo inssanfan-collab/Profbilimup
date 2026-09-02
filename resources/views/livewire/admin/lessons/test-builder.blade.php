@@ -1,19 +1,18 @@
 <div class="py-12">
     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
-        <a href="{{ route('admin.lessons.edit', $lesson) }}" wire:navigate class="text-sm text-indigo-600 hover:text-indigo-900">
+        <a href="{{ route('admin.lessons.edit', $lesson) }}" wire:navigate class="text-sm text-blue-700 hover:text-blue-900">
             &larr; {{ __('Назад к уроку') }}
         </a>
 
         @if (! $lesson->test)
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <x-card>
                 <p class="text-gray-600 mb-4">{{ __('У этого урока пока нет теста.') }}</p>
-                <button wire:click="createTest" type="button"
-                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+                <x-primary-button wire:click="createTest" type="button">
                     {{ __('Создать тест') }}
-                </button>
-            </div>
+                </x-primary-button>
+            </x-card>
         @else
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <x-card>
                 <form wire:submit="saveSettings" class="flex flex-wrap items-end gap-4">
                     <div>
                         <x-input-label for="time_limit_minutes" :value="__('Лимит времени (мин.)')" />
@@ -29,10 +28,10 @@
                     </div>
                     <x-primary-button>{{ __('Сохранить настройки') }}</x-primary-button>
                 </form>
-            </div>
+            </x-card>
 
             @foreach ($questions as $question)
-                <div class="bg-white shadow-sm sm:rounded-lg p-6" wire:key="question-{{ $question->id }}">
+                <x-card wire:key="question-{{ $question->id }}">
                     <div class="flex items-start justify-between gap-4">
                         <div>
                             <p class="font-medium text-gray-800">{{ $question->question_text }}</p>
@@ -63,27 +62,27 @@
                         <div class="mt-3 flex items-center gap-2">
                             <x-text-input wire:model="newChoiceText.{{ $question->id }}" placeholder="{{ __('Новый вариант ответа') }}" class="block w-full" />
                             <label class="flex items-center gap-1 text-sm text-gray-600 whitespace-nowrap">
-                                <input type="checkbox" wire:model="newChoiceIsCorrect.{{ $question->id }}">
+                                <input type="checkbox" wire:model="newChoiceIsCorrect.{{ $question->id }}" class="rounded border-gray-300 text-blue-700 focus:ring-blue-600">
                                 {{ __('верный') }}
                             </label>
-                            <button wire:click="addChoice({{ $question->id }})" type="button" class="text-sm text-indigo-600 hover:text-indigo-900 whitespace-nowrap">
+                            <button wire:click="addChoice({{ $question->id }})" type="button" class="text-sm text-blue-700 hover:text-blue-900 whitespace-nowrap">
                                 + {{ __('Добавить') }}
                             </button>
                         </div>
                     @endif
-                </div>
+                </x-card>
             @endforeach
 
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <x-card>
                 <h3 class="text-sm font-semibold text-gray-700 mb-3">{{ __('Новый вопрос') }}</h3>
                 <form wire:submit="addQuestion" class="space-y-3">
                     <div>
                         <textarea wire:model="newQuestionText" rows="2" placeholder="{{ __('Текст вопроса') }}"
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                            class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-600 focus:ring-blue-600"></textarea>
                         <x-input-error :messages="$errors->get('newQuestionText')" class="mt-2" />
                     </div>
                     <div class="flex items-center gap-4">
-                        <select wire:model="newQuestionType" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <select wire:model="newQuestionType" class="rounded-lg border-gray-300 shadow-sm focus:border-blue-600 focus:ring-blue-600">
                             <option value="single">{{ __('Один правильный ответ') }}</option>
                             <option value="multiple">{{ __('Несколько правильных ответов') }}</option>
                             <option value="text">{{ __('Текстовый ответ') }}</option>
@@ -92,7 +91,7 @@
                         <x-primary-button>{{ __('Добавить вопрос') }}</x-primary-button>
                     </div>
                 </form>
-            </div>
+            </x-card>
         @endif
     </div>
 </div>

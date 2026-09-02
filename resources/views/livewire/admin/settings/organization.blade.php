@@ -1,6 +1,6 @@
 <div class="py-12">
     <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white shadow-sm sm:rounded-lg p-6">
+        <x-card>
             <form wire:submit="save" class="space-y-6">
                 <div>
                     <x-input-label for="name_ru" :value="__('Название организации (русский)')" />
@@ -23,7 +23,7 @@
                 <div>
                     <x-input-label for="logo" :value="__('Логотип')" />
                     @if ($settings->logo_path)
-                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($settings->logo_path) }}" class="h-16 my-2">
+                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($settings->logo_path) }}" class="h-16 my-2 rounded-lg">
                     @endif
                     <input type="file" wire:model="logo" id="logo" accept="image/*" class="block mt-1 text-sm">
                     <span wire:loading wire:target="logo" class="text-sm text-gray-500">{{ __('Загрузка...') }}</span>
@@ -35,6 +35,6 @@
                     <span x-data="{ shown: false }" x-on:settings-saved.window="shown = true; setTimeout(() => shown = false, 2000)" x-show="shown" x-cloak class="text-sm text-green-600">{{ __('Сохранено') }}</span>
                 </div>
             </form>
-        </div>
+        </x-card>
     </div>
 </div>

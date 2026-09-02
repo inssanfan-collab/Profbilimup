@@ -1,6 +1,6 @@
 <div class="py-12">
     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+        <x-card>
             <form wire:submit="save" class="space-y-6">
                 <div>
                     <x-input-label for="title" :value="__('Название курса')" />
@@ -11,7 +11,7 @@
                 <div>
                     <x-input-label for="description" :value="__('Описание')" />
                     <textarea wire:model="description" id="description" rows="4"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                        class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-600 focus:ring-blue-600"></textarea>
                     <x-input-error :messages="$errors->get('description')" class="mt-2" />
                 </div>
 
@@ -29,6 +29,6 @@
                     <a href="{{ route('admin.courses.index') }}" wire:navigate class="text-sm text-gray-600 hover:text-gray-900">{{ __('Отмена') }}</a>
                 </div>
             </form>
-        </div>
+        </x-card>
     </div>
 </div>
