@@ -1,8 +1,14 @@
 <div class="py-12">
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
-        <a href="{{ route('admin.courses.builder', $course) }}" wire:navigate class="text-sm text-blue-700 hover:text-blue-900">
-            &larr; {{ __('Назад к структуре курса') }}
-        </a>
+        @if (auth()->user()->hasPermission(\App\Enums\CuratorPermission::Courses))
+            <a href="{{ route('admin.courses.builder', $course) }}" wire:navigate class="text-sm text-blue-700 hover:text-blue-900">
+                &larr; {{ __('Назад к структуре курса') }}
+            </a>
+        @else
+            <a href="{{ route('admin.courses.index') }}" wire:navigate class="text-sm text-blue-700 hover:text-blue-900">
+                &larr; {{ __('Назад к курсам') }}
+            </a>
+        @endif
 
         <x-card>
             <form wire:submit="schedule" class="flex flex-wrap items-end gap-4">

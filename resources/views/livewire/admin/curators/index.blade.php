@@ -33,7 +33,7 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $curator->has_all_courses_access ? __('Все курсы') : __(':count курсов', ['count' => $curator->curator_courses_count]) }}
+                                {{ $curator->has_all_courses_access ? __('Все курсы') : __('Курсов: :count', ['count' => $curator->curator_courses_count]) }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right">
                                 <a href="{{ route('admin.curators.edit', $curator) }}" wire:navigate class="text-blue-700 hover:text-blue-900">{{ __('Редактировать') }}</a>
