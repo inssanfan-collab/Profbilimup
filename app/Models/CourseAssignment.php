@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AssignmentStatus;
+use App\Enums\CertificateType;
 use App\Enums\FinalOutcome;
 use Database\Factories\CourseAssignmentFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -51,9 +52,40 @@ class CourseAssignment extends Model
         return $this->hasMany(LessonProgress::class);
     }
 
+    public function certificates(): HasMany
+    {
+        return $this->hasMany(Certificate::class);
+    }
+
+    /**
+     * Основной документ по итогам курса — сертификат либо справка о прослушивании.
+     */
     public function certificate(): HasOne
     {
-        return $this->hasOne(Certificate::class);
+        return $this->hasOne(Certificate::class)->whereIn('type', [
+            CertificateType::Certificate,
+            CertificateType::AttendanceReference,
+        ]);
+    }
+
+    public function postCourseReference(): HasOne
+    {
+        return $this->hasOne(Certificate::class)->where('type', CertificateType::PostCourseReference);
+    }
+
+    public function postCoursePlan(): HasOne
+    {
+        return $this->hasOne(PostCoursePlan::class);
+    }
+
+    public function postCourseReports(): HasMany
+    {
+        return $this->hasMany(PostCourseReport::class);
+    }
+
+    public function postCourseEvents(): HasMany
+    {
+        return $this->hasMany(PostCourseEvent::class);
     }
 
     public function isOverdue(): bool

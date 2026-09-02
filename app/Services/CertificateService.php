@@ -55,6 +55,40 @@ class CertificateService
         });
     }
 
+    /**
+     * Справка о прохождении посткурсового сопровождения (Приложение 8 Приказа №95).
+     */
+    public function generatePostCourseReference(CourseAssignment $assignment): Certificate
+    {
+        if ($assignment->postCourseReference) {
+            return $assignment->postCourseReference;
+        }
+
+        return DB::transaction(function () use ($assignment) {
+            $organization = OrganizationSettings::current();
+
+            $certificate = Certificate::create([
+                'course_assignment_id' => $assignment->id,
+                'type' => CertificateType::PostCourseReference,
+                'certificate_number' => $this->nextCertificateNumber(CertificateType::PostCourseReference),
+                'pdf_path' => '',
+                'qr_token' => (string) Str::uuid(),
+                'director_full_name_snapshot' => $organization->director_full_name,
+                'issued_at' => now(),
+                'valid_until' => null,
+            ]);
+
+            $certificate->update([
+                'pdf_path' => $this->renderPdf($certificate, $assignment, $organization),
+            ]);
+
+            $certificate = $certificate->fresh();
+            $assignment->listener->notify(new CertificateIssuedNotification($certificate));
+
+            return $certificate;
+        });
+    }
+
     private function attachModuleGrades(Certificate $certificate, CourseAssignment $assignment): void
     {
         foreach ($assignment->course->modules as $module) {
@@ -87,7 +121,11 @@ class CertificateService
 
     private function nextCertificateNumber(CertificateType $type): string
     {
-        $prefix = $type === CertificateType::Certificate ? 'УП' : 'СП';
+        $prefix = match ($type) {
+            CertificateType::Certificate => 'УП',
+            CertificateType::AttendanceReference => 'СП',
+            CertificateType::PostCourseReference => 'ПС',
+        };
         $year = now()->format('Y');
         $sequence = Certificate::where('type', $type)->whereYear('issued_at', $year)->count() + 1;
 
@@ -99,9 +137,11 @@ class CertificateService
         $verifyUrl = URL::to('/certificates/verify/'.$certificate->qr_token);
         $qrDataUri = (new Builder())->build(data: $verifyUrl, size: 180, margin: 5)->getDataUri();
 
-        $view = $certificate->type === CertificateType::Certificate
-            ? 'certificates.certificate'
-            : 'certificates.attendance-reference';
+        $view = match ($certificate->type) {
+            CertificateType::Certificate => 'certificates.certificate',
+            CertificateType::AttendanceReference => 'certificates.attendance-reference',
+            CertificateType::PostCourseReference => 'certificates.post-course-reference',
+        };
 
         $pdf = Pdf::loadView($view, [
             'certificate' => $certificate,

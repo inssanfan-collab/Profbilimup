@@ -12,6 +12,8 @@ use App\Livewire\Admin\Lessons\Form as LessonForm;
 use App\Livewire\Admin\Lessons\TestBuilder;
 use App\Livewire\Admin\Listeners\Form as ListenerForm;
 use App\Livewire\Admin\Listeners\Index as ListenersIndex;
+use App\Livewire\Admin\PostCourseSupport\Index as PostCourseSupportIndex;
+use App\Livewire\Admin\PostCourseSupport\Show as PostCourseSupportShow;
 use App\Livewire\Admin\Settings\Organization as OrganizationSettingsPage;
 use App\Livewire\Admin\TestReview\Queue as TestReviewQueue;
 use App\Livewire\Admin\TestReview\Review as TestReviewReview;
@@ -43,3 +45,6 @@ Route::get('analytics', AnalyticsDashboard::class)->name('analytics.index');
 Route::get('analytics/courses/{course}', CourseReport::class)->name('analytics.course');
 Route::get('analytics/courses/{course}/export', [AnalyticsExportController::class, 'courseReport'])->name('analytics.course.export');
 Route::get('analytics/listeners/{listener}', ListenerReport::class)->name('analytics.listener');
+
+Route::get('post-course-support', PostCourseSupportIndex::class)->name('post-course-support.index');
+Route::get('post-course-support/{assignment}', PostCourseSupportShow::class)->name('post-course-support.show');

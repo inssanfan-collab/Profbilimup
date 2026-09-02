@@ -60,7 +60,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-right">
                                 @if ($assignment->certificate)
                                     <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($assignment->certificate->pdf_path) }}" target="_blank" class="text-indigo-600 hover:text-indigo-900">
-                                        {{ $assignment->certificate->type === \App\Enums\CertificateType::Certificate ? __('Сертификат') : __('Справка') }}
+                                        {{ $assignment->certificate->typeLabel() }}
                                     </a>
                                 @elseif ($assignment->status !== \App\Enums\AssignmentStatus::Completed && $assignment->agreement_accepted_at)
                                     <button wire:click="closeAsAttendanceOnly({{ $assignment->id }})" wire:confirm="{{ __('Закрыть курс для слушателя и выдать справку о прослушивании вместо сертификата?') }}" type="button" class="text-amber-600 hover:text-amber-800">

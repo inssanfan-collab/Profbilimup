@@ -50,6 +50,10 @@ new class extends Component
                         <x-nav-link :href="route('admin.analytics.index')" :active="request()->routeIs('admin.analytics.*')" wire:navigate>
                             {{ __('Аналитика') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('admin.post-course-support.index')" :active="request()->routeIs('admin.post-course-support.*')" wire:navigate>
+                            {{ __('Посткурсовое сопровождение') }}
+                        </x-nav-link>
                     @else
                         <x-nav-link :href="route('listener.certificates.index')" :active="request()->routeIs('listener.certificates.*')" wire:navigate>
                             {{ __('Мои сертификаты') }}
@@ -136,6 +140,10 @@ new class extends Component
 
                 <x-responsive-nav-link :href="route('admin.analytics.index')" :active="request()->routeIs('admin.analytics.*')" wire:navigate>
                     {{ __('Аналитика') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.post-course-support.index')" :active="request()->routeIs('admin.post-course-support.*')" wire:navigate>
+                    {{ __('Посткурсовое сопровождение') }}
                 </x-responsive-nav-link>
             @else
                 <x-responsive-nav-link :href="route('listener.certificates.index')" :active="request()->routeIs('listener.certificates.*')" wire:navigate>

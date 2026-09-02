@@ -5,7 +5,7 @@
                 <div>
                     <p class="font-medium text-gray-800">{{ $certificate->courseAssignment->course->title }}</p>
                     <p class="text-sm text-gray-500">
-                        {{ $certificate->type === \App\Enums\CertificateType::Certificate ? __('Сертификат') : __('Справка о прослушивании') }}
+                        {{ $certificate->typeLabel() }}
                         · № {{ $certificate->certificate_number }}
                         · {{ $certificate->issued_at->format('d.m.Y') }}
                     </p>

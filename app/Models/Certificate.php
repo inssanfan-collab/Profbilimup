@@ -29,4 +29,13 @@ class Certificate extends Model
     {
         return $this->hasMany(CertificateModuleGrade::class);
     }
+
+    public function typeLabel(): string
+    {
+        return match ($this->type) {
+            CertificateType::Certificate => __('Сертификат'),
+            CertificateType::AttendanceReference => __('Справка'),
+            CertificateType::PostCourseReference => __('Справка о посткурсовом сопровождении'),
+        };
+    }
 }

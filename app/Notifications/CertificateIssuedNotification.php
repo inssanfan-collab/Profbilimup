@@ -19,12 +19,14 @@ class CertificateIssuedNotification extends Notification
 
     public function toArray(object $notifiable): array
     {
-        $isCertificate = $this->certificate->type === CertificateType::Certificate;
+        $message = match ($this->certificate->type) {
+            CertificateType::Certificate => __('Вам выдан сертификат № :number', ['number' => $this->certificate->certificate_number]),
+            CertificateType::AttendanceReference => __('Вам выдана справка о прослушивании № :number', ['number' => $this->certificate->certificate_number]),
+            CertificateType::PostCourseReference => __('Вам выдана справка о прохождении посткурсового сопровождения № :number', ['number' => $this->certificate->certificate_number]),
+        };
 
         return [
-            'message' => $isCertificate
-                ? __('Вам выдан сертификат № :number', ['number' => $this->certificate->certificate_number])
-                : __('Вам выдана справка о прослушивании № :number', ['number' => $this->certificate->certificate_number]),
+            'message' => $message,
             'url' => route('listener.certificates.index'),
         ];
     }

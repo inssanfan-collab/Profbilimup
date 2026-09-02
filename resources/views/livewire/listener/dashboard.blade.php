@@ -28,6 +28,13 @@
                     <div class="bg-indigo-600 h-2 rounded-full" style="width: {{ $assignment->progressPercent() }}%"></div>
                 </div>
             </a>
+
+            @if ($assignment->status === \App\Enums\AssignmentStatus::Completed)
+                <a href="{{ route('listener.post-course-support.show', $assignment) }}" wire:navigate
+                    class="block bg-indigo-50 shadow-sm sm:rounded-lg px-6 py-3 hover:bg-indigo-100 transition -mt-2 text-sm font-medium text-indigo-700">
+                    {{ __('Посткурсовое сопровождение') }} &rarr;
+                </a>
+            @endif
         @empty
             <div class="bg-white shadow-sm sm:rounded-lg p-6 text-gray-500">
                 {{ __('Вам пока не назначено ни одного курса.') }}

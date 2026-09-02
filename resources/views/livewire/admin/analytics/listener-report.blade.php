@@ -35,7 +35,7 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if ($assignment->certificate)
                                     <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($assignment->certificate->pdf_path) }}" target="_blank" class="text-indigo-600 hover:text-indigo-900">
-                                        {{ $assignment->certificate->type === \App\Enums\CertificateType::Certificate ? __('Сертификат') : __('Справка') }}
+                                        {{ $assignment->certificate->typeLabel() }}
                                     </a>
                                 @else
                                     —
