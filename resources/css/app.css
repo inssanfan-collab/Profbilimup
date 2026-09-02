@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+trix-toolbar .trix-button-row {
+    @apply flex-wrap gap-1 border border-gray-300 rounded-t-lg bg-gray-50 p-1.5;
+}
+
+trix-toolbar .trix-button-group {
+    @apply border border-gray-200 rounded-md overflow-hidden;
+}
+
+trix-toolbar .trix-button {
+    @apply border-0 bg-transparent text-gray-500 hover:bg-gray-100;
+}
+
+trix-toolbar .trix-button.trix-active {
+    @apply bg-blue-50 text-blue-700;
+}
+
+trix-editor {
+    @apply rounded-b-lg border border-t-0 border-gray-300 shadow-sm min-h-[10rem] focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600;
+}
+
+.trix-dialog {
+    @apply rounded-lg border border-gray-200 shadow-raised;
+}
+
+.trix-dialog .trix-input {
+    @apply rounded-lg border-gray-300 shadow-sm focus:border-blue-600 focus:ring-blue-600;
+}
+
+.trix-dialog .trix-button {
+    @apply rounded-lg text-sm font-semibold;
+}
+
+.trix-dialog .trix-button--dialog {
+    @apply bg-blue-700 text-white hover:bg-blue-800;
+}
