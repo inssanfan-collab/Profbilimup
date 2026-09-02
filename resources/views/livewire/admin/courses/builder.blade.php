@@ -14,6 +14,8 @@
                 <a href="{{ route('admin.courses.edit', $course) }}" wire:navigate class="text-sm text-indigo-600 hover:text-indigo-900">{{ __('Изменить параметры курса') }}</a>
                 ·
                 <a href="{{ route('admin.courses.assign', $course) }}" wire:navigate class="text-sm text-indigo-600 hover:text-indigo-900">{{ __('Назначить слушателям') }}</a>
+                ·
+                <a href="{{ route('admin.video-meetings.index', $course) }}" wire:navigate class="text-sm text-indigo-600 hover:text-indigo-900">{{ __('Видеоуроки') }}</a>
             </div>
 
             <div>

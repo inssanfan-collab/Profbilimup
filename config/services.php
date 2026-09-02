@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'video_conference' => [
+        'url' => env('BBB_URL'),
+        'secret' => env('BBB_SECRET'),
+    ],
+
 ];

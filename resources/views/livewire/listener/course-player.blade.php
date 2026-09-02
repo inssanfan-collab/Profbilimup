@@ -21,6 +21,28 @@
                 </button>
             </div>
         @else
+            @if ($videoMeetings->isNotEmpty())
+                <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">{{ __('Видеоуроки') }}</h3>
+                    <ul class="divide-y divide-gray-100">
+                        @foreach ($videoMeetings as $meeting)
+                            <li class="py-3 flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-800">{{ $meeting->name }}</p>
+                                    @if ($meeting->starts_at)
+                                        <p class="text-xs text-gray-500">{{ $meeting->starts_at->format('d.m.Y H:i') }}</p>
+                                    @endif
+                                </div>
+                                <button wire:click="joinVideoMeeting({{ $meeting->id }})" type="button"
+                                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+                                    {{ __('Присоединиться') }}
+                                </button>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             @foreach ($modules as $module)
                 <div class="bg-white shadow-sm sm:rounded-lg p-6">
                     <h3 class="text-lg font-semibold text-gray-800 mb-3">{{ $module->title }}</h3>

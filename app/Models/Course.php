@@ -44,6 +44,11 @@ class Course extends Model
         return $this->hasMany(CourseAssignment::class);
     }
 
+    public function videoMeetings(): HasMany
+    {
+        return $this->hasMany(VideoMeeting::class);
+    }
+
     /**
      * All lessons in this course, in module order then lesson order.
      *

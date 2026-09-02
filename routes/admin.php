@@ -11,6 +11,7 @@ use App\Livewire\Admin\Listeners\Index as ListenersIndex;
 use App\Livewire\Admin\Settings\Organization as OrganizationSettingsPage;
 use App\Livewire\Admin\TestReview\Queue as TestReviewQueue;
 use App\Livewire\Admin\TestReview\Review as TestReviewReview;
+use App\Livewire\Admin\VideoMeetings\Index as VideoMeetingsIndex;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'admin.dashboard')->name('dashboard');
@@ -23,6 +24,7 @@ Route::get('courses', CoursesIndex::class)->name('courses.index');
 Route::get('courses/create', CourseForm::class)->name('courses.create');
 Route::get('courses/{course}/edit', CourseForm::class)->name('courses.edit');
 Route::get('courses/{course}/assign', CourseAssign::class)->name('courses.assign');
+Route::get('courses/{course}/video-meetings', VideoMeetingsIndex::class)->name('video-meetings.index');
 Route::get('courses/{course}', CourseBuilder::class)->name('courses.builder');
 
 Route::get('lessons/{lesson}', LessonForm::class)->name('lessons.edit');
