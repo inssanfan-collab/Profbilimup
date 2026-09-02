@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AnalyticsExportController;
+use App\Livewire\Admin\Analytics\CourseReport;
+use App\Livewire\Admin\Analytics\Dashboard as AnalyticsDashboard;
+use App\Livewire\Admin\Analytics\ListenerReport;
 use App\Livewire\Admin\Courses\Assign as CourseAssign;
 use App\Livewire\Admin\Courses\Builder as CourseBuilder;
 use App\Livewire\Admin\Courses\Form as CourseForm;
@@ -34,3 +38,8 @@ Route::get('test-review', TestReviewQueue::class)->name('test-review.index');
 Route::get('test-review/{attempt}', TestReviewReview::class)->name('test-review.show');
 
 Route::get('settings/organization', OrganizationSettingsPage::class)->name('settings.organization');
+
+Route::get('analytics', AnalyticsDashboard::class)->name('analytics.index');
+Route::get('analytics/courses/{course}', CourseReport::class)->name('analytics.course');
+Route::get('analytics/courses/{course}/export', [AnalyticsExportController::class, 'courseReport'])->name('analytics.course.export');
+Route::get('analytics/listeners/{listener}', ListenerReport::class)->name('analytics.listener');

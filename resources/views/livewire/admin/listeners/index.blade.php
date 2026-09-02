@@ -59,6 +59,7 @@
                                         class="text-indigo-600 hover:text-indigo-900"
                                     >{{ __('Копировать ссылку') }}</button>
                                 @endif
+                                <a href="{{ route('admin.analytics.listener', $listener) }}" wire:navigate class="text-indigo-600 hover:text-indigo-900">{{ __('Прогресс') }}</a>
                                 <a href="{{ route('admin.listeners.edit', $listener) }}" wire:navigate class="text-gray-600 hover:text-gray-900">{{ __('Редактировать') }}</a>
                             </td>
                         </tr>

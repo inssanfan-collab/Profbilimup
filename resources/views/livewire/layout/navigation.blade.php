@@ -46,6 +46,10 @@ new class extends Component
                         <x-nav-link :href="route('admin.test-review.index')" :active="request()->routeIs('admin.test-review.*')" wire:navigate>
                             {{ __('Проверка тестов') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('admin.analytics.index')" :active="request()->routeIs('admin.analytics.*')" wire:navigate>
+                            {{ __('Аналитика') }}
+                        </x-nav-link>
                     @else
                         <x-nav-link :href="route('listener.certificates.index')" :active="request()->routeIs('listener.certificates.*')" wire:navigate>
                             {{ __('Мои сертификаты') }}
@@ -122,6 +126,10 @@ new class extends Component
 
                 <x-responsive-nav-link :href="route('admin.test-review.index')" :active="request()->routeIs('admin.test-review.*')" wire:navigate>
                     {{ __('Проверка тестов') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.analytics.index')" :active="request()->routeIs('admin.analytics.*')" wire:navigate>
+                    {{ __('Аналитика') }}
                 </x-responsive-nav-link>
             @else
                 <x-responsive-nav-link :href="route('listener.certificates.index')" :active="request()->routeIs('listener.certificates.*')" wire:navigate>
