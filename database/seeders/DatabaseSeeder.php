@@ -16,10 +16,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->admin()->create([
+        User::create([
             'name' => 'Администратор',
             'email' => env('ADMIN_EMAIL', 'admin@bilimup.local'),
             'password' => env('ADMIN_PASSWORD', 'password'),
+            'role' => UserRole::Admin,
             'email_verified_at' => now(),
         ]);
     }
