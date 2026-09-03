@@ -32,8 +32,10 @@
 
                 <div>
                     <x-input-label for="lesson-content" :value="__('Текстовый материал')" />
-                    <input id="lesson-content" type="hidden" wire:model="content_html">
-                    <trix-editor input="lesson-content" x-on:trix-change="$wire.set('content_html', $event.target.value)" class="mt-1"></trix-editor>
+                    <div wire:ignore>
+                        <input id="lesson-content" type="hidden" value="{{ $content_html }}">
+                        <trix-editor input="lesson-content" x-on:trix-change="$wire.set('content_html', $event.target.value, false)" class="mt-1"></trix-editor>
+                    </div>
                     <x-input-error :messages="$errors->get('content_html')" class="mt-2" />
                 </div>
 
