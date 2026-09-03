@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Проверка сертификата — {{ config('app.name', 'BilimUP') }}</title>
+    <title>Проверка сертификата — {{ config('app.name', 'ProfBilimUP') }}</title>
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/favicon-192.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/favicon-512.png') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=golos-text:400,500,600,700&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css'])
@@ -11,8 +13,8 @@
 <body class="font-sans antialiased bg-gray-50 min-h-screen flex items-center justify-center">
     <div class="max-w-md w-full mx-4 bg-white rounded-xl border border-gray-100 shadow-card p-8">
         <div class="flex items-center gap-2.5 mb-6">
-            <x-application-logo class="h-9 w-9 rounded-lg" />
-            <span class="text-lg font-bold text-gray-900">{{ config('app.name', 'BilimUP') }}</span>
+            <x-application-logo class="h-9 w-9" />
+            <span class="text-lg font-bold text-gray-900">{{ config('app.name', 'ProfBilimUP') }}</span>
         </div>
 
         @if ($certificate)

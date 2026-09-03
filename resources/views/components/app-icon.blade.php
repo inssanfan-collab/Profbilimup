@@ -30,6 +30,8 @@ $map = [
     'verified' => 'check-badge',
     'identification' => 'identification',
     'language' => 'globe-alt',
+    'arrow-left' => 'arrow-left',
+    'email' => 'envelope',
 ];
 
 $icon = $map[$name] ?? 'question-mark-circle';

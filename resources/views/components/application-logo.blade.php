@@ -1,4 +1,11 @@
-<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" {{ $attributes }}>
-    <rect width="40" height="40" rx="9" fill="#1d4ed8" />
-    <text x="20" y="21" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="21">B</text>
-</svg>
+@props(['variant' => 'mark'])
+
+@php
+    $src = $variant === 'full' ? 'images/logo-profbilimup.png' : 'images/logo-mark.png';
+@endphp
+
+<img src="{{ asset($src) }}"
+     alt="{{ config('app.name', 'ProfBilimUP') }}"
+     {{ $attributes }}
+     style="object-fit: contain; user-select: none;"
+     draggable="false" />

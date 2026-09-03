@@ -24,8 +24,8 @@ new class extends Component
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center gap-2.5">
                     <a href="{{ route('dashboard') }}" wire:navigate class="flex items-center gap-2.5">
-                        <x-application-logo class="block h-9 w-9 rounded-lg" />
-                        <span class="hidden md:inline font-bold text-gray-900">{{ config('app.name', 'BilimUP') }}</span>
+                        <x-application-logo class="block h-9 w-9" />
+                        <span class="hidden md:inline font-bold text-gray-900">{{ config('app.name', 'ProfBilimUP') }}</span>
                     </a>
                 </div>
 

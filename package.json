@@ -18,7 +18,8 @@
         "vite": "^8.0.0"
     },
     "optionalDependencies": {
-        "@laravel/multiplex": "^0.4.1"
+        "@laravel/multiplex": "^0.4.1",
+        "@rolldown/binding-win32-x64-msvc": "^1.2.6"
     },
     "dependencies": {
         "trix": "^2.1.19"
