@@ -209,10 +209,10 @@
                     ], fn ($stat) => $stat['value'] > 0));
                 @endphp
 
-                @if ($stats)
+                @if (count($stats) >= 2)
                     <section class="relative -mt-6 sm:-mt-10 pb-8" aria-label="{{ __('Показатели центра') }}">
                         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <dl class="reveal grid grid-cols-2 gap-4 sm:gap-6 {{ [1 => 'md:grid-cols-1', 2 => 'md:grid-cols-2', 3 => 'md:grid-cols-3', 4 => 'md:grid-cols-4'][count($stats)] }}">
+                            <dl class="reveal grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                                 @foreach ($stats as $index => $stat)
                                     <div class="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white/95 p-6 sm:p-7 shadow-raised backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-lg"
                                         style="--reveal-delay: {{ $index * 60 }}ms">
