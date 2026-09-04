@@ -7,7 +7,7 @@
             </a>
         </div>
 
-        <div class="bg-white overflow-hidden rounded-xl border border-gray-100 shadow-card">
+        <div class="bg-white overflow-x-auto rounded-xl border border-gray-100 shadow-card">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
