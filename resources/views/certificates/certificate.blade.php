@@ -20,6 +20,7 @@
     .qr { text-align: center; }
     .qr img { width: 90px; height: 90px; }
     .qr p { font-size: 9px; color: #6b7280; width: 90px; margin: 4px auto 0; }
+    .qr .code { width: 140px; word-break: break-all; }
     .seal-note { color: #6b7280; font-size: 11px; }
     .page-break { page-break-before: always; }
     table.grades { width: 100%; border-collapse: collapse; margin-top: 20px; }
@@ -68,6 +69,7 @@
                     <div class="qr">
                         <img src="{{ $qrDataUri }}">
                         <p>Проверка подлинности по QR-коду</p>
+                        <p class="code">Код проверки: <strong>{{ $certificate->qr_token }}</strong></p>
                     </div>
                 </td>
             </tr>
